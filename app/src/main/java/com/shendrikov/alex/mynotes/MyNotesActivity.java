@@ -1,12 +1,14 @@
 package com.shendrikov.alex.mynotes;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.shendrikov.alex.mynotes.adapters.MyAdapter;
@@ -43,6 +45,14 @@ public class MyNotesActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         mAdapter = new MyAdapter(persons);
         mRecyclerView.setAdapter(mAdapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "FAB is clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -61,9 +71,6 @@ public class MyNotesActivity extends AppCompatActivity {
                 break;
             case R.id.action_help:
                 Toast.makeText(this, "Help option clicked", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.action_search:
-                Toast.makeText(this, "Search option clicked", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
