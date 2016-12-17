@@ -36,7 +36,5 @@ public class MyNotesActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         mAdapter = new MyAdapter(persons);
         mRecyclerView.setAdapter(mAdapter);
-
-        //That's all
     }
 }

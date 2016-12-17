@@ -1,6 +1,5 @@
 package com.shendrikov.alex.mynotes.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,9 +44,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     // Store a member variable for the contacts
     private List<Person> mPersonList;
-
-    // Store the context for easy access
-//    private Context mContext;
 
     public MyAdapter (List<Person> list) {
         mPersonList = list;

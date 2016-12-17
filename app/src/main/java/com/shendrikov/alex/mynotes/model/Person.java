@@ -20,10 +20,17 @@ public class Person {
         return mName;
     }
 
+    public void setName(String mName) {
+        this.mName = mName;
+    }
+
     public String getSurName() {
         return mSurName;
     }
 
+    public void setSurName(String mSurName) {
+        this.mSurName = mSurName;
+    }
 
     public static ArrayList<Person> createPersonList(int length) {
         ArrayList<Person> persons = new ArrayList<Person>();
