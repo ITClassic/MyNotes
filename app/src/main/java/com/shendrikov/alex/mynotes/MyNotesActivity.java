@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 
 import com.shendrikov.alex.mynotes.adapters.MyAdapter;
 import com.shendrikov.alex.mynotes.model.Person;
@@ -22,6 +23,11 @@ public class MyNotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_notes);
+
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
 
         // Lookup the recyclerView in activity layout
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
