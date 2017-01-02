@@ -23,6 +23,13 @@ android {
 buildscript {
     ext.supportVersion = '25.0.0'
     ext.butterKnifeVersion = '8.4.0'
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
 }
 
 dependencies {
@@ -35,4 +42,6 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
     compile "com.android.support:design:${supportVersion}"
     compile "com.android.support:cardview-v7:${supportVersion}"
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 }

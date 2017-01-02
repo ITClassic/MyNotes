@@ -1,5 +1,6 @@
-package com.shendrikov.alex.mynotes;
+package com.shendrikov.alex.mynotes.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -10,9 +11,9 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.shendrikov.alex.mynotes.R;
 import com.shendrikov.alex.mynotes.adapters.MyAdapter;
 import com.shendrikov.alex.mynotes.model.Person;
 
@@ -21,6 +22,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.shendrikov.alex.mynotes.R.id.fab;
 
 public class MyNotesActivity extends AppCompatActivity {
 
@@ -28,10 +32,10 @@ public class MyNotesActivity extends AppCompatActivity {
     protected RecyclerView mRecyclerView;
 
     @BindView(R.id.my_toolbar)
-    protected Toolbar toolbar;
+    protected Toolbar mToolbar;
 
-    @BindView(R.id.fab)
-    protected FloatingActionButton fab;
+    @BindView(fab)
+    protected FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,7 @@ public class MyNotesActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
         // use a linear layout manager (vertical)
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, mRecyclerView.VERTICAL, false);
@@ -58,13 +62,12 @@ public class MyNotesActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         MyAdapter myAdapter = new MyAdapter(personList);
         mRecyclerView.setAdapter(myAdapter);
+    }
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "FAB is clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+    @OnClick(R.id.fab)
+    public void onFABClicked() {
+        Intent intent = new Intent(this, EditNotesActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -93,4 +96,5 @@ public class MyNotesActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
