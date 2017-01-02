@@ -4,4 +4,6 @@
     <string name="help">Help</string>
     <string name="search">Search</string>
     <string name="share">Share</string>
+    <string name="name_title">Name:</string>
+    <string name="surname_title">SurName:</string>
 </resources>

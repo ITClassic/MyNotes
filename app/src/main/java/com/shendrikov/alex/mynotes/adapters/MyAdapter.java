@@ -20,6 +20,12 @@ import butterknife.ButterKnife;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
+    // Store a member variable for the contacts
+    private List<Person> mPersonList;
+
+    public MyAdapter (List<Person> list) {
+        mPersonList = list;
+    }
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -33,20 +39,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         TextView textViewSurName;
 
         public ViewHolder(View itemView) {
-
             // We also create a constructor that accepts the entire item row
             // and does the view lookups to find each subview
             super(itemView);
-
             ButterKnife.bind(this, itemView);
         }
-    }
 
-    // Store a member variable for the contacts
-    private List<Person> mPersonList;
-
-    public MyAdapter (List<Person> list) {
-        mPersonList = list;
+        void bindView(Person person) {
+            textViewName.setText(person.getName());
+            textViewSurName.setText(person.getSurName());
+        }
     }
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -60,7 +62,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         // Return a new holder instance
         ViewHolder viewHolder = new ViewHolder(personView);
-
         return viewHolder;
     }
 
@@ -70,13 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         // Get the data model based on position
         Person person = mPersonList.get(position);
-
-        // Set item views based on your views and data model
-        TextView textView = holder.textViewName;
-        textView.setText(person.getName());
-
-        TextView textView1 = holder.textViewSurName;
-        textView1.setText(person.getSurName());
+        holder.bindView(person);
     }
 
     // Returns the total count of items in the list

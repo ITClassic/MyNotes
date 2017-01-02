@@ -17,38 +17,48 @@ import com.shendrikov.alex.mynotes.adapters.MyAdapter;
 import com.shendrikov.alex.mynotes.model.Person;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MyNotesActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    @BindView(R.id.my_recycler_view)
+    protected RecyclerView mRecyclerView;
 
-    ArrayList<Person> persons;
+    @BindView(R.id.my_toolbar)
+    protected Toolbar toolbar;
+
+    @BindView(R.id.fab)
+    protected FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_notes);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
 
-        // Lookup the recyclerView in activity layout
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
-        // Initialize persons
-        persons = Person.createPersonList(20);
-
         // use a linear layout manager (vertical)
-        mLayoutManager = new LinearLayoutManager(this, mRecyclerView.VERTICAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, mRecyclerView.VERTICAL, false);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // Create and initialize personList
+        List<Person> personList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Person person = new Person();
+            person.setName("Name " + (i + 1));
+            person.setSurName("SurName " + (i + 1));
+            personList.add(person);
+        }
 
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(persons);
-        mRecyclerView.setAdapter(mAdapter);
+        MyAdapter myAdapter = new MyAdapter(personList);
+        mRecyclerView.setAdapter(myAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
