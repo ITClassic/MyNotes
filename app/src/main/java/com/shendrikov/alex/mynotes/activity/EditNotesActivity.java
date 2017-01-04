@@ -1,5 +1,6 @@
 package com.shendrikov.alex.mynotes.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.SharedElementCallback;
@@ -12,9 +13,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.shendrikov.alex.mynotes.R;
+import com.shendrikov.alex.mynotes.db.MyNotesContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Alex on 02.01.2017.
@@ -63,8 +66,6 @@ public class EditNotesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-     //Call to update the share intent
-
     private void shareAction() {
 
         Intent shareIntent = new Intent();
@@ -75,6 +76,19 @@ public class EditNotesActivity extends AppCompatActivity {
 
         startActivity(shareIntent);
    }
+
+    @OnClick(R.id.button_save)
+    public void onSaveButtonClick() {
+        insertPerson();
+        finish();
+    }
+
+    private void insertPerson() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
+        contentValues.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
+        getContentResolver().insert(MyNotesContract.CONTENT_URI, contentValues);
+    }
 
     private String prepareNotForSharing() {
         String name = mNameEditText.getText().toString();

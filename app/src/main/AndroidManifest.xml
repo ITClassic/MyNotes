@@ -18,6 +18,11 @@
         <activity android:name=".activity.EditNotesActivity">
 
         </activity>
+        <provider
+            android:authorities="com.shendrikov.alex.mynotes"
+            android:name=".providers.MyNotesContentProvider"
+            android:exported="false">
+        </provider>
     </application>
 
 </manifest>

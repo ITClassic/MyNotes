@@ -25,6 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public MyAdapter (List<Person> list) {
         mPersonList = list;
+        notifyDataSetChanged();
     }
 
     // Provide a direct reference to each of the views within a data item

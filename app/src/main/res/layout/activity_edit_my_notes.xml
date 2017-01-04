@@ -48,7 +48,7 @@
             android:id="@+id/name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
+            android:hint="Name:"
             android:inputType="text"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -61,14 +61,25 @@
         app:layout_constraintTop_toBottomOf="@+id/text_input1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/button_save">
 
         <EditText
             android:id="@+id/surname_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="SurName"
+            android:hint="SurName:"
             android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
+    <Button
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:theme="@style/PrimaryColorBackButtonTheme"
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        app:layout_constraintTop_toBottomOf="@+id/text_input2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 </android.support.constraint.ConstraintLayout>

@@ -8,4 +8,5 @@
     <string name="surname_title">SurName:</string>
     <string formatted="false"
         name="sharing_template">Name: %s\nSurName: %s</string>
+    <string name="save">Save</string>
 </resources>

@@ -1,6 +1,10 @@
 package com.shendrikov.alex.mynotes.activity;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -9,12 +13,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.shendrikov.alex.mynotes.R;
 import com.shendrikov.alex.mynotes.adapters.MyAdapter;
+import com.shendrikov.alex.mynotes.db.MyNotesContract;
 import com.shendrikov.alex.mynotes.model.Person;
 
 import java.util.ArrayList;
@@ -26,7 +32,9 @@ import butterknife.OnClick;
 
 import static com.shendrikov.alex.mynotes.R.id.fab;
 
-public class MyNotesActivity extends AppCompatActivity {
+public class MyNotesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
+    public static final String LOG_TAG = "myLogs";
 
     @BindView(R.id.my_recycler_view)
     protected RecyclerView mRecyclerView;
@@ -50,18 +58,7 @@ public class MyNotesActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, mRecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        // Create and initialize personList
-        List<Person> personList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            Person person = new Person();
-            person.setName("Name " + (i + 1));
-            person.setSurName("SurName " + (i + 1));
-            personList.add(person);
-        }
-
-        // specify an adapter (see also next example)
-        MyAdapter myAdapter = new MyAdapter(personList);
-        mRecyclerView.setAdapter(myAdapter);
+        getLoaderManager().initLoader(R.id.my_notes_loader, null, this);
     }
 
     @OnClick(R.id.fab)
@@ -97,4 +94,30 @@ public class MyNotesActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
+        Loader<Cursor> loader;
+        loader = new CursorLoader(this, MyNotesContract.CONTENT_URI, null, null, null, null);
+        Log.d(LOG_TAG, "onCreateLoader: " + loader.hashCode());
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        List<Person> personList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            personList.add(new Person(cursor));
+        }
+        MyAdapter myAdapter = new MyAdapter(personList);
+        mRecyclerView.setAdapter(myAdapter);
+
+        Log.d(LOG_TAG, "onLoadFinished: " + loader.hashCode());
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(LOG_TAG, "onLoaderReset: " + loader.hashCode());
+    }
 }

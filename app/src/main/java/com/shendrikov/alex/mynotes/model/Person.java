@@ -1,5 +1,9 @@
 package com.shendrikov.alex.mynotes.model;
 
+import android.database.Cursor;
+
+import com.shendrikov.alex.mynotes.db.MyNotesContract;
+
 import java.util.ArrayList;
 
 /**
@@ -10,6 +14,13 @@ public class Person {
 
     private String mName;
     private String mSurName;
+
+    public Person(){}
+
+    public Person(Cursor cursor) {
+        mName = cursor.getString(cursor.getColumnIndex(MyNotesContract.NAME_COLUMN));
+        mSurName = cursor.getString(cursor.getColumnIndex(MyNotesContract.SURNAME_COLUMN));
+    }
 
     public String getName() {
         return mName;
