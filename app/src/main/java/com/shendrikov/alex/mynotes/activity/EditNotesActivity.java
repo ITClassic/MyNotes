@@ -1,7 +1,14 @@
 package com.shendrikov.alex.mynotes.activity;
 
+import android.app.AlertDialog;
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +18,8 @@ import android.widget.EditText;
 
 import com.shendrikov.alex.mynotes.R;
 import com.shendrikov.alex.mynotes.db.MyNotesContract;
+import com.shendrikov.alex.mynotes.model.Person;
+import com.tjeannin.provigen.ProviGenBaseContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +29,8 @@ import butterknife.OnClick;
  * Created by Alex on 02.01.2017.
  */
 
-public class EditNotesActivity extends AppCompatActivity {
+public class EditNotesActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String SHARE_TYPE = "text/plain";
 
@@ -31,21 +41,41 @@ public class EditNotesActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
 
+    private long mId = -1;
+    private String mOriginalName = "";
+    private String mOriginalSurName = "";
+
+    public static Intent newInstance(Context context) {
+        return new Intent(context, EditNotesActivity.class);
+    }
+
+    public static Intent newInstance(Context context, long id) {
+        Intent intent = newInstance(context);
+        intent.putExtra(ProviGenBaseContract._ID, id);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_my_notes);
-
         ButterKnife.bind(this);
-
+        checkIntentByExtraId();
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void checkIntentByExtraId() {
+        Intent intent = getIntent();
+        if (!intent.hasExtra(ProviGenBaseContract._ID)) return;
+        mId = intent.getLongExtra(ProviGenBaseContract._ID, mId);
+        if (mId == -1) return;
+        getLoaderManager().initLoader(R.id.my_notes_loader, null, this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_note_item_menu, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -54,30 +84,83 @@ public class EditNotesActivity extends AppCompatActivity {
 
         switch(item.getItemId()) {
             case android.R.id.home:
-                finish();
+                safetyFinish(() -> finish());
                 break;
-            case R.id.menu_item_share:
+            case R.id.menu_item_action_share:
                 shareAction();
+                break;
+            case R.id.menu_item_action_delete:
+                deleteNote();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void deleteNote() {
+        if (isNoteUpdatable()) {
+            getContentResolver().delete(
+                    Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
+                    null,
+                    null);
+        }
+        finish();
+    }
+
+    private boolean isNoteUpdatable() {
+        return mId != -1;
+    }
+
+    private void safetyFinish(Runnable finish) {
+        if (mOriginalName.equals(mNameEditText.getText())
+                && mOriginalSurName.equals(mSurNameEditText.getText())) {
+            finish.run();
+            return;
+        }
+        showAreYouSureAlert(finish);
+    }
+
+    private void showAreYouSureAlert(final Runnable finish) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.are_you_sure_alert_dialog_title);
+        builder.setMessage(R.string.are_you_sure_alert_do_you_want_to_save_changes);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+            save();
+            finish.run();
+        });
+        builder.setNegativeButton(R.string.no, ((dialogInterface, i) -> finish.run()));
+        builder.show();
+    }
+
     private void shareAction() {
-
         Intent shareIntent = new Intent();
-
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, prepareNotForSharing());
         shareIntent.setType(SHARE_TYPE);
-
         startActivity(shareIntent);
    }
 
     @OnClick(R.id.button_save)
     public void onSaveButtonClick() {
-        insertPerson();
+        save();
         finish();
+    }
+
+    private void save() {
+        if (isNoteUpdatable()) {
+            updatePerson();
+        } else insertPerson();
+    }
+
+    private void updatePerson() {
+        final ContentValues values = new ContentValues();
+        values.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
+        values.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
+        getContentResolver().update(
+                Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
+                values,
+                null,
+                null);
     }
 
     private void insertPerson() {
@@ -92,5 +175,35 @@ public class EditNotesActivity extends AppCompatActivity {
         String surName = mSurNameEditText.getText().toString();
 
         return getString(R.string.sharing_template, name, surName);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new CursorLoader(this,
+                MyNotesContract.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        if (cursor == null && !cursor.moveToFirst()) return;
+        Person person = new Person(cursor);
+        mNameEditText.setText(person.getName());
+        mSurNameEditText.setText(person.getSurName());
+        mOriginalName = person.getName();
+        mOriginalSurName = person.getSurName();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        safetyFinish(() -> EditNotesActivity.super.onBackPressed());
     }
 }

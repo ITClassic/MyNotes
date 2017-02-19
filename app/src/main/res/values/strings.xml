@@ -9,4 +9,9 @@
     <string formatted="false"
         name="sharing_template">Name: %s\nSurName: %s</string>
     <string name="save">Save</string>
+    <string name="search_hint">Type person\'s name</string>
+    <string name="are_you_sure_alert_dialog_title">Attention!!!</string>
+    <string name="are_you_sure_alert_do_you_want_to_save_changes">Do you want to save changes?</string>
+    <string name="yes">Yes!</string>
+    <string name="no">No</string>
 </resources>

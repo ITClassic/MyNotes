@@ -1,6 +1,8 @@
 package com.shendrikov.alex.mynotes.activity;
 
 import android.app.LoaderManager;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -73,7 +75,10 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
         getMenuInflater().inflate(R.menu.my_note_menu, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -106,12 +111,19 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
-        List<Person> personList = new ArrayList<>();
+        List<Person> dataSource = new ArrayList<>();
         while (cursor.moveToNext()) {
-            personList.add(new Person(cursor));
+            dataSource.add(new Person(cursor));
         }
-        MyAdapter myAdapter = new MyAdapter(personList);
+        MyAdapter myAdapter = new MyAdapter();
         mRecyclerView.setAdapter(myAdapter);
+        myAdapter.setDataSource(dataSource);
+        myAdapter.setOnItemClickListener(view -> {
+            MyAdapter.PersonViewHolder holder =
+                    (MyAdapter.PersonViewHolder) mRecyclerView.findContainingViewHolder(view);
+            if (holder == null) return;
+            startActivity(EditNotesActivity.newInstance(this, holder.getPerson().getId()));
+        });
 
         Log.d(LOG_TAG, "onLoadFinished: " + loader.hashCode());
     }
