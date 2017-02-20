@@ -10,6 +10,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -45,11 +46,13 @@ public class EditNotesActivity extends AppCompatActivity
     private String mOriginalName = "";
     private String mOriginalSurName = "";
 
-    public static Intent newInstance(Context context) {
+    @NonNull
+    public static Intent newInstance(@NonNull Context context) {
         return new Intent(context, EditNotesActivity.class);
     }
 
-    public static Intent newInstance(Context context, long id) {
+    @NonNull
+    public static Intent newInstance(@NonNull Context context, long id) {
         Intent intent = newInstance(context);
         intent.putExtra(ProviGenBaseContract._ID, id);
         return intent;
@@ -81,10 +84,9 @@ public class EditNotesActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch(item.getItemId()) {
             case android.R.id.home:
-                safetyFinish(() -> finish());
+                safetyFinish(this::finish);
                 break;
             case R.id.menu_item_action_share:
                 shareAction();
@@ -106,29 +108,41 @@ public class EditNotesActivity extends AppCompatActivity
         finish();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(ProviGenBaseContract._ID, mId);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mId = savedInstanceState.getLong(ProviGenBaseContract._ID);
+    }
+
     private boolean isNoteUpdatable() {
         return mId != -1;
     }
 
-    private void safetyFinish(Runnable finish) {
+    private void safetyFinish(Runnable runnable) {
         if (mOriginalName.equals(mNameEditText.getText())
                 && mOriginalSurName.equals(mSurNameEditText.getText())) {
-            finish.run();
+            runnable.run();
             return;
         }
-        showAreYouSureAlert(finish);
+        showAreYouSureAlert(runnable);
     }
 
-    private void showAreYouSureAlert(final Runnable finish) {
+    private void showAreYouSureAlert(final Runnable runnable) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.are_you_sure_alert_dialog_title);
         builder.setMessage(R.string.are_you_sure_alert_do_you_want_to_save_changes);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
+        builder.setPositiveButton(R.string.yes, (dialogInterface, id) -> {
             save();
-            finish.run();
+            runnable.run();
         });
-        builder.setNegativeButton(R.string.no, ((dialogInterface, i) -> finish.run()));
+        builder.setNegativeButton(R.string.no, ((dialogInterface, id) -> runnable.run()));
         builder.show();
     }
 
@@ -173,14 +187,13 @@ public class EditNotesActivity extends AppCompatActivity
     private String prepareNotForSharing() {
         String name = mNameEditText.getText().toString();
         String surName = mSurNameEditText.getText().toString();
-
         return getString(R.string.sharing_template, name, surName);
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+    public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
         return new CursorLoader(this,
-                MyNotesContract.CONTENT_URI,
+                Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
                 null,
                 null,
                 null,
@@ -198,12 +211,10 @@ public class EditNotesActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
+    public void onLoaderReset(Loader<Cursor> loader) {}
 
     @Override
     public void onBackPressed() {
-        safetyFinish(() -> EditNotesActivity.super.onBackPressed());
+        safetyFinish(EditNotesActivity.super::onBackPressed);
     }
 }

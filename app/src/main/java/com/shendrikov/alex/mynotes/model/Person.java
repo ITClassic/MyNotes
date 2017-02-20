@@ -5,11 +5,13 @@ import android.database.Cursor;
 import com.shendrikov.alex.mynotes.db.MyNotesContract;
 import com.tjeannin.provigen.ProviGenBaseContract;
 
+import java.io.Serializable;
+
 /**
  * Created by Alex on 17.12.2016.
  */
 
-public class Person {
+public class Person implements Serializable{
 
     private String mName;
     private String mSurName;

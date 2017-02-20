@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.shendrikov.alex.mynotes.R;
@@ -34,16 +35,15 @@ import butterknife.OnClick;
 
 import static com.shendrikov.alex.mynotes.R.id.fab;
 
-public class MyNotesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MyNotesActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
 
     public static final String LOG_TAG = "myLogs";
 
     @BindView(R.id.my_recycler_view)
     protected RecyclerView mRecyclerView;
-
     @BindView(R.id.my_toolbar)
     protected Toolbar mToolbar;
-
     @BindView(fab)
     protected FloatingActionButton mFab;
 
@@ -51,15 +51,11 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_notes);
-
         ButterKnife.bind(this);
-
         setSupportActionBar(mToolbar);
-
         // use a linear layout manager (vertical)
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, mRecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
-
         getLoaderManager().initLoader(R.id.my_notes_loader, null, this);
     }
 
@@ -71,21 +67,17 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.my_note_menu, menu);
-
         MenuItem searchItem = menu.findItem(R.id.action_search);
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch(item.getItemId()) {
             case R.id.action_settings:
                 Toast.makeText(this, "Settings option clicked", Toast.LENGTH_SHORT).show();
@@ -101,7 +93,6 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-
         Loader<Cursor> loader;
         loader = new CursorLoader(this, MyNotesContract.CONTENT_URI, null, null, null, null);
         Log.d(LOG_TAG, "onCreateLoader: " + loader.hashCode());
@@ -110,7 +101,6 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
         List<Person> dataSource = new ArrayList<>();
         while (cursor.moveToNext()) {
             dataSource.add(new Person(cursor));
@@ -118,12 +108,7 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
         MyAdapter myAdapter = new MyAdapter();
         mRecyclerView.setAdapter(myAdapter);
         myAdapter.setDataSource(dataSource);
-        myAdapter.setOnItemClickListener(view -> {
-            MyAdapter.PersonViewHolder holder =
-                    (MyAdapter.PersonViewHolder) mRecyclerView.findContainingViewHolder(view);
-            if (holder == null) return;
-            startActivity(EditNotesActivity.newInstance(this, holder.getPerson().getId()));
-        });
+        myAdapter.setOnItemClickListener(this);
 
         Log.d(LOG_TAG, "onLoadFinished: " + loader.hashCode());
     }
@@ -131,5 +116,13 @@ public class MyNotesActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(LOG_TAG, "onLoaderReset: " + loader.hashCode());
+    }
+
+    @Override
+    public void onClick(View view) {
+        MyAdapter.PersonViewHolder holder =
+                (MyAdapter.PersonViewHolder) mRecyclerView.findContainingViewHolder(view);
+        if (holder == null) return;
+        startActivity(EditNotesActivity.newInstance(this, holder.getPerson().getId()));
     }
 }
