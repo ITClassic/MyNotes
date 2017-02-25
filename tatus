@@ -1,0 +1,101 @@
+[33mcommit c109d097e80a93df624409b62e1630eaf94f3729[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Mon Feb 20 16:49:05 2017 +0200
+
+    Add fragment layout file
+
+[33mcommit c200acdb68424ef2be527c65edf6839be7221709[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Mon Feb 20 15:59:03 2017 +0200
+
+    Clear code and add some changes
+
+[33mcommit 3f5cbfaf0552c679aa35b9a142b00e6f5efb7da5[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Sun Feb 19 22:23:07 2017 +0200
+
+    Add editing of exists note
+
+[33mcommit 584082c0c84cb391ed09d0e1ab6880e87470561c[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Fri Jan 6 12:17:23 2017 +0200
+
+    Clear code
+
+[33mcommit c4be33cffb02355f58289fef08787c9640ab1614[m
+Author: neophyteinpast <aleksandr.shendrikov@gmail.com>
+Date:   Wed Jan 4 17:21:50 2017 +0200
+
+    Add database
+
+[33mcommit 5a0438bc39aadd48aacecd2f1547875033a33755[m
+Author: neophyteinpast <aleksandr.shendrikov@gmail.com>
+Date:   Tue Jan 3 16:18:15 2017 +0200
+
+    Add sharing option
+
+[33mcommit ff8e1522ce99669099fec85f885f68888bc8617b[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Mon Jan 2 18:14:02 2017 +0200
+
+    Add EditNoteActivity and improve fab
+
+[33mcommit e3cd2f3f55af8c77b1d508edd5ed7b6faf09039d[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Mon Jan 2 12:47:20 2017 +0200
+
+    Clear and simplify code
+
+[33mcommit abbf01ec30aec6284f4686c79c35b33b58e18261[m
+Author: neophyteinpast <aleksandr.shendrikov@gmail.com>
+Date:   Mon Dec 19 19:55:55 2016 +0200
+
+    test
+
+[33mcommit 846282ba757b5d88f4a753c5e72191c58e70b986[m
+Author: neophyteinpast <aleksandr.shendrikov@gmail.com>
+Date:   Mon Dec 19 19:45:09 2016 +0200
+
+    Add Person.class to library folder
+
+[33mcommit e5c235dad31befda3fffdcf902c83e5dba690fc7[m
+Author: neophyteinpast <aleksandr.shendrikov@gmail.com>
+Date:   Mon Dec 19 19:25:57 2016 +0200
+
+    Add library
+
+[33mcommit feb7c69597e5cc313dc00c54d9d6001600e690b3[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Sun Dec 18 18:22:33 2016 +0200
+
+    Add a Search action
+
+[33mcommit 3fd72d495fa79432330c4934e18b5ec981547b93[m
+Author: neophyteinpast <aleksandr.shendrikov@gmail.com>
+Date:   Sat Dec 17 23:03:49 2016 +0200
+
+    Add Floating Action Button
+
+[33mcommit 74981f08cf8b6896de94cfe0e12727f3b7473729[m
+Author: neophyteinpast <aleksandr.shendrikov@gmail.com>
+Date:   Sat Dec 17 21:50:59 2016 +0200
+
+    Add menu
+
+[33mcommit 4ba94b7662ebe93abe50aef05302c6e268b925e9[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Sat Dec 17 15:24:41 2016 +0200
+
+    Add CoordinatorLayout widget and Toolbar
+
+[33mcommit edbc3a4326f05fc623b8e14ae9782dc05078e4e1[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Sat Dec 17 13:47:00 2016 +0200
+
+    Add cardView widget
+
+[33mcommit 20707e33c4fb038cb2ea2c990dd891e4fb7d2e17[m
+Author: ITClassic <freem1nd@i.ua>
+Date:   Sat Dec 17 11:13:09 2016 +0200
+
+    Initial commit
