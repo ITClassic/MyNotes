@@ -89,6 +89,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
         // Get the data model based on position
         Person person = mPersonList.get(position);
         holder.bindView(person);
+        holder.itemView.setOnClickListener(mOnItemClickListener);
     }
 
     // Returns the total count of items in the list

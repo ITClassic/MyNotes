@@ -22,6 +22,9 @@ import com.shendrikov.alex.mynotes.db.MyNotesContract;
 import com.shendrikov.alex.mynotes.model.Person;
 import com.tjeannin.provigen.ProviGenBaseContract;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -202,12 +205,15 @@ public class EditNotesActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        if (cursor == null && !cursor.moveToFirst()) return;
-        Person person = new Person(cursor);
-        mNameEditText.setText(person.getName());
-        mSurNameEditText.setText(person.getSurName());
-        mOriginalName = person.getName();
-        mOriginalSurName = person.getSurName();
+        List<Person> dataSource = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            Person person = new Person(cursor);
+            dataSource.add(person);
+            mNameEditText.setText(person.getName());
+            mSurNameEditText.setText(person.getSurName());
+            mOriginalName = person.getName();
+            mOriginalSurName = person.getSurName();
+        }
     }
 
     @Override
