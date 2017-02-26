@@ -38,6 +38,6 @@
         android:id="@+id/fab"
         style="@style/ButtonFAB"
         app:fabSize="normal"
-        app:srcCompat="@drawable/ic_mode_edit_black_24dp" />
+        app:srcCompat="@drawable/ic_add_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>
