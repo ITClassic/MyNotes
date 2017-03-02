@@ -1,7 +1,6 @@
 package com.shendrikov.alex.mynotes.activity;
 
 import android.app.AlertDialog;
-import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -11,7 +10,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,7 +17,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.shendrikov.alex.mynotes.R;
-import com.shendrikov.alex.mynotes.adapters.NotesFragmentPagerAdapter;
 import com.shendrikov.alex.mynotes.db.MyNotesContract;
 import com.shendrikov.alex.mynotes.model.Person;
 import com.tjeannin.provigen.ProviGenBaseContract;
@@ -32,31 +29,26 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Alex on 02.01.2017.
+ * Created by 430 on 27.02.2017.
  */
 
-public class EditNotesActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<Cursor>{
-
+public class CreateNotesActivity extends AppCompatActivity {
     private static final String SHARE_TYPE = "text/plain";
 
-//    @BindView(R.id.name_edit_text)
-//    protected EditText mNameEditText;
-//    @BindView(R.id.surname_edit_text)
-//    protected EditText mSurNameEditText;
+    @BindView(R.id.name_edit_text)
+    protected EditText mNameEditText;
+    @BindView(R.id.surname_edit_text)
+    protected EditText mSurNameEditText;
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
-    @BindView(R.id.view_pager)
-    protected ViewPager mViewPager;
 
     private long mId = -1;
-//    private String mOriginalName = "";
-//    private String mOriginalSurName = "";
-    private NotesFragmentPagerAdapter mViewPagerAdapter = null;
+    private String mOriginalName = "";
+    private String mOriginalSurName = "";
 
     @NonNull
     public static Intent newInstance(@NonNull Context context) {
-        return new Intent(context, EditNotesActivity.class);
+        return new Intent(context, CreateNotesActivity.class);
     }
 
     @NonNull
@@ -69,23 +61,20 @@ public class EditNotesActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_my_notes);
+        setContentView(R.layout.activity_create_my_notes);
         ButterKnife.bind(this);
-        checkIntentByExtraId();
+//        checkIntentByExtraId();
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mViewPagerAdapter = new NotesFragmentPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mViewPagerAdapter);
     }
 
-    private void checkIntentByExtraId() {
-        Intent intent = getIntent();
-        if (!intent.hasExtra(ProviGenBaseContract._ID)) return;
-        mId = intent.getLongExtra(ProviGenBaseContract._ID, mId);
-        if (mId == -1) return;
-        getLoaderManager().initLoader(R.id.edit_note_loader, null, this);
-    }
+//    private void checkIntentByExtraId() {
+//        Intent intent = getIntent();
+//        if (!intent.hasExtra(ProviGenBaseContract._ID)) return;
+//        mId = intent.getLongExtra(ProviGenBaseContract._ID, mId);
+//        if (mId == -1) return;
+//        getLoaderManager().initLoader(R.id.my_notes_loader, null, this);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -136,11 +125,11 @@ public class EditNotesActivity extends AppCompatActivity
     }
 
     private void safetyFinish(Runnable runnable) {
-//        if (mOriginalName.equals(mNameEditText.getText())
-//                && mOriginalSurName.equals(mSurNameEditText.getText())) {
-//            runnable.run();
-//            return;
-//        }
+        if (mOriginalName.equals(mNameEditText.getText())
+                && mOriginalSurName.equals(mSurNameEditText.getText())) {
+            runnable.run();
+            return;
+        }
         showAreYouSureAlert(runnable);
     }
 
@@ -157,15 +146,13 @@ public class EditNotesActivity extends AppCompatActivity
         builder.show();
     }
 
-
     private void shareAction() {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, prepareNotForSharing());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, prepareNotForSharing());
         shareIntent.setType(SHARE_TYPE);
         startActivity(shareIntent);
-   }
-
+    }
 
     @OnClick(R.id.button_save)
     public void onSaveButtonClick() {
@@ -181,8 +168,8 @@ public class EditNotesActivity extends AppCompatActivity
 
     private void updatePerson() {
         final ContentValues values = new ContentValues();
-//        values.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
-//        values.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
+        values.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
+        values.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
         getContentResolver().update(
                 Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
                 values,
@@ -190,51 +177,21 @@ public class EditNotesActivity extends AppCompatActivity
                 null);
     }
 
-
     private void insertPerson() {
         ContentValues contentValues = new ContentValues();
-    //    contentValues.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
-    //    contentValues.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
+        contentValues.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
+        contentValues.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
         getContentResolver().insert(MyNotesContract.CONTENT_URI, contentValues);
     }
 
-    /*
     private String prepareNotForSharing() {
         String name = mNameEditText.getText().toString();
         String surName = mSurNameEditText.getText().toString();
-        return getString(R.string.sharing_template, "","");
-    }*/
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-        return new CursorLoader(this,
-                MyNotesContract.CONTENT_URI,
-                null,
-                null,
-                null,
-                null);
+        return getString(R.string.sharing_template, name, surName);
     }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        List<Person> dataSource = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            Person person = new Person(cursor);
-            dataSource.add(person);
-           //mNameEditText.setText(person.getName());
-          //  mSurNameEditText.setText(person.getSurName());
-       //     mOriginalName = person.getName();
-        //    mOriginalSurName = person.getSurName();
-        }
-
-        mViewPagerAdapter.setDataSource(dataSource);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {}
 
     @Override
     public void onBackPressed() {
-        safetyFinish(EditNotesActivity.super::onBackPressed);
+        safetyFinish(CreateNotesActivity.super::onBackPressed);
     }
 }

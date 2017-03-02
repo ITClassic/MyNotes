@@ -23,7 +23,8 @@ public class NotesFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new NoteFragment();
+        long id = mDataSource.get(position).getId();
+        return NoteFragment.newInstance(id);
     }
 
     @Override

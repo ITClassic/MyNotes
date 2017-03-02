@@ -18,6 +18,9 @@
         <activity android:name=".activity.EditNotesActivity">
 
         </activity>
+        <activity android:name=".activity.CreateNotesActivity">
+
+        </activity>
         <activity android:name=".activity.SearchResultsActivity"
             android:launchMode="singleTop">
 

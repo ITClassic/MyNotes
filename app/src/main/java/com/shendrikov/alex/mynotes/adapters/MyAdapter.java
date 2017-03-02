@@ -95,6 +95,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return mPersonList.size() == 0 ? 0 : mPersonList.size();
+        return mPersonList == null ? 0 : mPersonList.size();
     }
 }
