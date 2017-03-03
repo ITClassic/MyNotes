@@ -11,4 +11,5 @@
     <dimen name="toolbar_elevation">4dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="edit_note_field_margin">8dp</dimen>
+    <dimen name="time_text_size">10sp</dimen>
 </resources>

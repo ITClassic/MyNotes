@@ -6,6 +6,7 @@
     <string name="share">Share</string>
     <string name="name_title">Name:</string>
     <string name="surname_title">SurName:</string>
+    <string name="time_field">hh:mm:ss</string>
     <string formatted="false"
         name="sharing_template">Name: %s\nSurName: %s</string>
     <string name="save">Save</string>

@@ -19,6 +19,7 @@ public interface MyNotesContract extends ProviGenBaseContract {
     @Column(Column.Type.TEXT)
     public static final String SURNAME_COLUMN = "SURNAME";
 
+
     public static final String TABLE_NAME = "my_notes_table";
 
     public static final String TABLE_URI_TEMPLATE = "content://%s/%s";

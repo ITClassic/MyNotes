@@ -2,9 +2,7 @@ package com.shendrikov.alex.mynotes.activity;
 
 
 import android.app.SearchManager;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -62,12 +60,6 @@ public class MyNotesActivity extends AppCompatActivity
                 new LinearLayoutManager(this, mRecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         getSupportLoaderManager().initLoader(R.id.notes_loader, null, this);
-
-//        for(int i = 0; i < 10; i ++) {
-//            ContentValues values = new ContentValues();
-//            values.put(MyNotesContract.SURNAME_COLUMN, "fddfdf" + i);
-//            getContentResolver().insert(MyNotesContract.CONTENT_URI, values);
-//        }
     }
 
     @OnClick(R.id.fab)

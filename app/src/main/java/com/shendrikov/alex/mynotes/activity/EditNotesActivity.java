@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 
 import com.shendrikov.alex.mynotes.R;
 import com.shendrikov.alex.mynotes.adapters.NotesFragmentPagerAdapter;
@@ -29,7 +28,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Alex on 02.01.2017.
@@ -150,7 +148,7 @@ public class EditNotesActivity extends AppCompatActivity
         builder.setMessage(R.string.are_you_sure_alert_do_you_want_to_save_changes);
         builder.setCancelable(false);
         builder.setPositiveButton(R.string.yes, (dialogInterface, id) -> {
-            save();
+//            save();
             runnable.run();
         });
         builder.setNegativeButton(R.string.no, ((dialogInterface, id) -> runnable.run()));
@@ -167,11 +165,12 @@ public class EditNotesActivity extends AppCompatActivity
    }
 
 
+    /*
     @OnClick(R.id.button_save)
     public void onSaveButtonClick() {
         save();
         finish();
-    }
+    }*/
 
     private void save() {
         if (isNoteUpdatable()) {
@@ -207,6 +206,7 @@ public class EditNotesActivity extends AppCompatActivity
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
+
         return new CursorLoader(this,
                 MyNotesContract.CONTENT_URI,
                 null,

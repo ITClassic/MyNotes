@@ -1,7 +1,5 @@
 package com.shendrikov.alex.mynotes.fragment;
 
-
-
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.shendrikov.alex.mynotes.R;
-import com.shendrikov.alex.mynotes.adapters.NotesFragmentPagerAdapter;
 import com.shendrikov.alex.mynotes.db.MyNotesContract;
 import com.shendrikov.alex.mynotes.model.Person;
 import com.tjeannin.provigen.ProviGenBaseContract;
@@ -29,8 +26,6 @@ import butterknife.ButterKnife;
  */
 
 public class NoteFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
-
-    static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
     @BindView(R.id.name_edit_text)
     protected EditText mNameEditText;
