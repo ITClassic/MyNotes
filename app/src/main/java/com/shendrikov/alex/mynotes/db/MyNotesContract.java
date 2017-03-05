@@ -19,6 +19,8 @@ public interface MyNotesContract extends ProviGenBaseContract {
     @Column(Column.Type.TEXT)
     public static final String SURNAME_COLUMN = "SURNAME";
 
+    @Column(Column.Type.TEXT)
+    public static final String TIME_COLUMN = "TIME";
 
     public static final String TABLE_NAME = "my_notes_table";
 

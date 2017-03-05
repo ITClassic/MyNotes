@@ -15,6 +15,7 @@ public class Person implements Serializable{
 
     private String mName;
     private String mSurName;
+    private String mTime;
     private long mId;
 
     public Person(){}
@@ -23,6 +24,7 @@ public class Person implements Serializable{
         mId = cursor.getLong(cursor.getColumnIndex(ProviGenBaseContract._ID));
         mName = cursor.getString(cursor.getColumnIndex(MyNotesContract.NAME_COLUMN));
         mSurName = cursor.getString(cursor.getColumnIndex(MyNotesContract.SURNAME_COLUMN));
+        mTime = cursor.getString(cursor.getColumnIndex(MyNotesContract.TIME_COLUMN));
     }
 
     public long getId() {
@@ -45,4 +47,11 @@ public class Person implements Serializable{
         this.mSurName = mSurName;
     }
 
+    public String getTime() {
+        return mTime;
+    }
+
+    public void setTime(String time) {
+        mTime = time;
+    }
 }

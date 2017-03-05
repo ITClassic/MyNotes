@@ -48,6 +48,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
         TextView textViewName;
         @BindView(R.id.surname)
         TextView textViewSurName;
+        @BindView(R.id.date_field)
+        TextView textViewDate;
 
         private Person mPerson;
 
@@ -62,6 +64,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
             mPerson = person;
             textViewName.setText(person.getName());
             textViewSurName.setText(person.getSurName());
+            textViewDate.setText(person.getTime());
         }
 
         public Person getPerson() {

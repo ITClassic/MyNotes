@@ -76,6 +76,7 @@ public class NoteFragment extends Fragment implements LoaderManager.LoaderCallba
         Person person = new Person(cursor);
         mNameEditText.setText(person.getName());
         mSurNameEditText.setText(person.getSurName());
+
     }
 
     @Override

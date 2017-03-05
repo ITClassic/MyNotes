@@ -3,10 +3,7 @@ package com.shendrikov.alex.mynotes.activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,11 +15,8 @@ import android.widget.EditText;
 
 import com.shendrikov.alex.mynotes.R;
 import com.shendrikov.alex.mynotes.db.MyNotesContract;
-import com.shendrikov.alex.mynotes.model.Person;
+import com.shendrikov.alex.mynotes.util.DateUtil;
 import com.tjeannin.provigen.ProviGenBaseContract;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -181,6 +175,7 @@ public class CreateNotesActivity extends AppCompatActivity {
         ContentValues contentValues = new ContentValues();
         contentValues.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
         contentValues.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
+        contentValues.put(MyNotesContract.TIME_COLUMN, DateUtil.getDate());
         getContentResolver().insert(MyNotesContract.CONTENT_URI, contentValues);
     }
 

@@ -21,6 +21,7 @@ import com.shendrikov.alex.mynotes.R;
 import com.shendrikov.alex.mynotes.adapters.NotesFragmentPagerAdapter;
 import com.shendrikov.alex.mynotes.db.MyNotesContract;
 import com.shendrikov.alex.mynotes.model.Person;
+import com.shendrikov.alex.mynotes.util.DateUtil;
 import com.tjeannin.provigen.ProviGenBaseContract;
 
 import java.util.ArrayList;
@@ -194,6 +195,7 @@ public class EditNotesActivity extends AppCompatActivity
         ContentValues contentValues = new ContentValues();
     //    contentValues.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
     //    contentValues.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
+        contentValues.put(MyNotesContract.TIME_COLUMN, DateUtil.getDate());
         getContentResolver().insert(MyNotesContract.CONTENT_URI, contentValues);
     }
 
