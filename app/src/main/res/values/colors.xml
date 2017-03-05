@@ -4,5 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorLightBlue50">#E3F2FD</color>
+    <color name="colorLightBlue500">#03A9F4</color>
+    <color name="colorIndigo300">#7986CB</color>
+    <color name="colorIndigo200">#9FA8DA</color>
+    <color name="colorIndigo100">#C5CAE9</color>
     <color name="colorWhite">#FFFFFF</color>
 </resources>
