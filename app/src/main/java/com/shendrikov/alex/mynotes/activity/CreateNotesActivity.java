@@ -62,14 +62,6 @@ public class CreateNotesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-//    private void checkIntentByExtraId() {
-//        Intent intent = getIntent();
-//        if (!intent.hasExtra(ProviGenBaseContract._ID)) return;
-//        mId = intent.getLongExtra(ProviGenBaseContract._ID, mId);
-//        if (mId == -1) return;
-//        getLoaderManager().initLoader(R.id.my_notes_loader, null, this);
-//    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_note_item_menu, menu);
