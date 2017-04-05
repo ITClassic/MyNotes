@@ -114,7 +114,7 @@ public class MyNotesActivity extends AppCompatActivity
         }
         MyAdapter myAdapter = new MyAdapter();
         mRecyclerView.setAdapter(myAdapter);
-        myAdapter.setDataSource(dataSource);
+        myAdapter.setDataSource(this, dataSource);
         myAdapter.setOnItemClickListener(this);
 
         Log.d(LOG_TAG, "onLoadFinished: " + loader.hashCode());
