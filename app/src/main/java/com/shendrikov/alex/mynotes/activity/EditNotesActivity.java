@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -37,7 +38,10 @@ import butterknife.ButterKnife;
 public class EditNotesActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    public static final String LOG_TAG = EditNotesActivity.class.getSimpleName();
+
     private static final String SHARE_TYPE = "text/plain";
+
 
 //    @BindView(R.id.name_edit_text)
 //    protected EditText mNameEditText;
@@ -165,7 +169,6 @@ public class EditNotesActivity extends AppCompatActivity
         startActivity(shareIntent);
    }
 
-
     /*
     @OnClick(R.id.button_save)
     public void onSaveButtonClick() {
@@ -228,8 +231,8 @@ public class EditNotesActivity extends AppCompatActivity
        //     mOriginalName = person.getName();
         //    mOriginalSurName = person.getSurName();
         }
-
-        mViewPagerAdapter.setDataSource(dataSource);
+        Log.d(LOG_TAG, "onLoadFinished(): dataSource.size(): " + dataSource.size() + ", mId = " + mId);
+        mViewPagerAdapter.setDataSource(dataSource, mId);
     }
 
     @Override

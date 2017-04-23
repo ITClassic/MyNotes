@@ -38,7 +38,7 @@ import static com.shendrikov.alex.mynotes.R.id.fab;
 public class MyNotesActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
 
-    public static final String LOG_TAG = "myLogs";
+    public static final String LOG_TAG = MyNotesActivity.class.getSimpleName();
 
     @BindView(R.id.my_recycler_view)
     protected RecyclerView mRecyclerView;
@@ -117,12 +117,12 @@ public class MyNotesActivity extends AppCompatActivity
         myAdapter.setDataSource(this, dataSource);
         myAdapter.setOnItemClickListener(this);
 
-        Log.d(LOG_TAG, "onLoadFinished: " + loader.hashCode());
+        Log.d(LOG_TAG, "onLoadFinished(): " + loader.hashCode());
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        Log.d(LOG_TAG, "onLoaderReset: " + loader.hashCode());
+        Log.d(LOG_TAG, "onLoaderReset(): " + loader.hashCode());
     }
 
     @Override
@@ -131,5 +131,6 @@ public class MyNotesActivity extends AppCompatActivity
                 (MyAdapter.PersonViewHolder) mRecyclerView.findContainingViewHolder(view);
         if (holder == null) return;
         startActivity(EditNotesActivity.newInstance(this, holder.getPerson().getId()));
+        Log.d(LOG_TAG, "Clicked on item with id = " + holder.getPerson().getId());
     }
 }

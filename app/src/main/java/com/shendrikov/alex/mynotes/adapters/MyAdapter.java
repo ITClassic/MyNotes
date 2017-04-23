@@ -76,12 +76,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
 
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        @BindView(R.id.name)
-        TextView textViewName;
-        @BindView(R.id.surname)
-        TextView textViewSurName;
-        @BindView(R.id.date_field)
-        TextView textViewDate;
+        @BindView(R.id.id)
+        TextView id;
+        @BindView(R.id.id_name)
+        TextView name;
+        @BindView(R.id.id_surName)
+        TextView surName;
+        @BindView(R.id.id_date)
+        TextView date;
 
         private Person mPerson;
 
@@ -95,9 +97,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder> 
 
         void bindView(Person person) {
             mPerson = person;
-            textViewName.setText(person.getName());
-            textViewSurName.setText(person.getSurName());
-            textViewDate.setText(person.getTime());
+            id.setText(String.valueOf(person.getId()));
+            name.setText(person.getName());
+            surName.setText(person.getSurName());
+            date.setText(person.getTime());
         }
 
         public Person getPerson() {

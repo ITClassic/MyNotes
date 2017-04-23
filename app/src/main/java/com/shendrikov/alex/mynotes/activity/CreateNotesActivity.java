@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -27,6 +29,9 @@ import butterknife.OnClick;
  */
 
 public class CreateNotesActivity extends AppCompatActivity {
+
+    public static final String LOG_TAG = CreateNotesActivity.class.getSimpleName();
+
     private static final String SHARE_TYPE = "text/plain";
 
     @BindView(R.id.name_edit_text)
@@ -57,7 +62,6 @@ public class CreateNotesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_my_notes);
         ButterKnife.bind(this);
-//        checkIntentByExtraId();
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -147,28 +151,22 @@ public class CreateNotesActivity extends AppCompatActivity {
     }
 
     private void save() {
-        if (isNoteUpdatable()) {
-            updatePerson();
-        } else insertPerson();
-    }
-
-    private void updatePerson() {
-        final ContentValues values = new ContentValues();
-        values.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
-        values.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
-        getContentResolver().update(
-                Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
-                values,
-                null,
-                null);
+        insertPerson();
     }
 
     private void insertPerson() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
-        contentValues.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
-        contentValues.put(MyNotesContract.TIME_COLUMN, DateUtil.getDate());
-        getContentResolver().insert(MyNotesContract.CONTENT_URI, contentValues);
+
+        if (TextUtils.isEmpty(mNameEditText.getText().toString()) ||
+                TextUtils.isEmpty(mSurNameEditText.getText().toString())) {
+            Log.d(LOG_TAG, "insertPerson(): Field is empty. Fill all fields!");
+            return;
+        } else {
+            contentValues.put(MyNotesContract.NAME_COLUMN, mNameEditText.getText().toString());
+            contentValues.put(MyNotesContract.SURNAME_COLUMN, mSurNameEditText.getText().toString());
+            contentValues.put(MyNotesContract.TIME_COLUMN, DateUtil.getDate());
+            getContentResolver().insert(MyNotesContract.CONTENT_URI, contentValues);
+        }
     }
 
     private String prepareNotForSharing() {
