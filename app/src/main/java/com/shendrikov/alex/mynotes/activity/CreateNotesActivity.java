@@ -34,9 +34,9 @@ public class CreateNotesActivity extends AppCompatActivity {
 
     private static final String SHARE_TYPE = "text/plain";
 
-    @BindView(R.id.name_edit_text)
+    @BindView(R.id.id_name_edit_text)
     protected EditText mNameEditText;
-    @BindView(R.id.surname_edit_text)
+    @BindView(R.id.id_surname_edit_text)
     protected EditText mSurNameEditText;
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
@@ -144,7 +144,7 @@ public class CreateNotesActivity extends AppCompatActivity {
         startActivity(shareIntent);
     }
 
-    @OnClick(R.id.button_save)
+    @OnClick(R.id.id_button_save)
     public void onSaveButtonClick() {
         save();
         finish();

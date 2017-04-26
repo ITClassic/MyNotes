@@ -40,7 +40,7 @@ public class MyNotesActivity extends AppCompatActivity
 
     public static final String LOG_TAG = MyNotesActivity.class.getSimpleName();
 
-    @BindView(R.id.my_recycler_view)
+    @BindView(R.id.id_my_recycler_view)
     protected RecyclerView mRecyclerView;
     @BindView(R.id.my_toolbar)
     protected Toolbar mToolbar;
@@ -93,6 +93,7 @@ public class MyNotesActivity extends AppCompatActivity
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

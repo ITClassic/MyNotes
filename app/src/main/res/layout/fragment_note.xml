@@ -5,12 +5,12 @@
 
     <android.support.design.widget.TextInputLayout
         android:theme="@style/PrimaryColorAccentStyle"
-        android:id="@+id/text_input1"
+        android:id="@+id/id_text_input_layout_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/edit_note_field_margin">
         <EditText
-            android:id="@+id/name_edit_text"
+            android:id="@+id/id_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_name"
@@ -19,14 +19,14 @@
 
     <android.support.design.widget.TextInputLayout
         android:theme="@style/PrimaryColorAccentStyle"
-        android:id="@+id/text_input2"
+        android:id="@+id/id_text_input_layout_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_input1"
-        android:layout_alignStart="@+id/text_input1"
+        android:layout_below="@+id/id_text_input_layout_1"
+        android:layout_alignStart="@+id/id_text_input_layout_1"
         android:layout_margin="@dimen/edit_note_field_margin">
         <EditText
-            android:id="@+id/surname_edit_text"
+            android:id="@+id/id_surname_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_surName"
@@ -36,7 +36,7 @@
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:theme="@style/PrimaryColorBackButtonTheme"
-        android:id="@+id/button_save"
+        android:id="@+id/id_button_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
