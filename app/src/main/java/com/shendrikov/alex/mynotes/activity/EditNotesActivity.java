@@ -15,9 +15,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -89,7 +91,7 @@ public class EditNotesActivity extends AppCompatActivity implements
         if (!intent.hasExtra(ProviGenBaseContract._ID)) return;
         mId = intent.getLongExtra(ProviGenBaseContract._ID, mId);
         if (mId == -1) return;
-        Log.d(LOG_TAG, "checkIntentByExtraId(): mId = " + mId);
+//        Log.d(LOG_TAG, "checkIntentByExtraId(): mId = " + mId);
         getLoaderManager().initLoader(R.id.edit_note_loader, null, this);
     }
 
@@ -149,8 +151,7 @@ public class EditNotesActivity extends AppCompatActivity implements
         return mId != -1;
     }
 
-    private void safetyFinish(Runnable runnable) {
-        Log.d(LOG_TAG, "safetyFinish():");
+    private void safetyFinish(Runnable runnable) throws NullPointerException{
 
         mNameEdit = (EditText) mViewPagerAdapter.getCurrentFragment().
                 getView().findViewById(R.id.id_name_edit_text);
@@ -160,8 +161,8 @@ public class EditNotesActivity extends AppCompatActivity implements
         if (mOriginalName.equals(mNameEdit.getText().toString())
                 && mOriginalSurName.equals(mSurNameEdit.getText().toString())) {
             runnable.run();
-            Log.d(LOG_TAG, "safetyFinish(): Text fields are equal! mNameEdit = " + mNameEdit.getText() +
-                    ", mOriginalName = " + mOriginalName);
+//            Log.d(LOG_TAG, "safetyFinish(): Text fields are equal! mNameEdit = " + mNameEdit.getText() +
+//                    ", mOriginalName = " + mOriginalName);
             return;
         }
         showAreYouSureAlert(runnable);
@@ -201,14 +202,24 @@ public class EditNotesActivity extends AppCompatActivity implements
 
     private void updatePerson() {
         final ContentValues values = new ContentValues();
-        values.put(MyNotesContract.NAME_COLUMN, mNameEdit.getText().toString());
-        values.put(MyNotesContract.SURNAME_COLUMN, mSurNameEdit.getText().toString());
-        values.put(MyNotesContract.TIME_COLUMN, DateUtil.getDate());
-        getContentResolver().update(
-                Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
-                values,
-                null,
-                null);
+
+        if (TextUtils.isEmpty(mNameEdit.getText().toString()) ||
+                TextUtils.isEmpty(mSurNameEdit.getText().toString())) {
+            Toast.makeText(getBaseContext(),
+                    "One of the field is empty. Fill all fields!",
+                    Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            values.put(MyNotesContract.NAME_COLUMN, mNameEdit.getText().toString());
+            values.put(MyNotesContract.SURNAME_COLUMN, mSurNameEdit.getText().toString());
+            values.put(MyNotesContract.TIME_COLUMN, DateUtil.getDate());
+            getContentResolver().update(
+                    Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
+                    values,
+                    null,
+                    null);
+        }
+
         Log.d(LOG_TAG, "updatePerson(): mNameEdit = " + mNameEdit.getText() + ", mId = " + mId);
     }
 
@@ -233,24 +244,23 @@ public class EditNotesActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         List<Person> dataSource = new ArrayList<>();
 
-        long currentId = mViewPagerAdapter.getCurrentId();
-        Log.d(LOG_TAG, "currentID = " + currentId);
+//        long currentId = mViewPagerAdapter.getCurrentId();
+//        Log.d(LOG_TAG, "currentID = " + currentId);
 
         while(cursor.moveToNext()) {
             Person person = new Person(cursor);
             dataSource.add(person);
 
-            if (person.getId() == currentId) {
+            if (person.getId() == mId) {
                 mOriginalName = person.getName();
                 mOriginalSurName = person.getSurName();
-                Log.d(LOG_TAG, "onLoadFinished(): mId = " + mId +
-                        ", mOriginalName = " + mOriginalName +
-                        ", mOriginalSurName = " + mOriginalSurName);
+//                Log.d(LOG_TAG, "onLoadFinished(): mId = " + mId +
+//                        ", mOriginalName = " + mOriginalName +
+//                        ", mOriginalSurName = " + mOriginalSurName);
             }
-
         }
 
-        Log.d(LOG_TAG, "onLoadFinished(): dataSource.size(): " + dataSource.size() + ", mId = " + mId);
+//        Log.d(LOG_TAG, "onLoadFinished(): dataSource.size(): " + dataSource.size() + ", mId = " + mId);
         mViewPagerAdapter.setDataSource(dataSource, mId);
     }
 
@@ -266,7 +276,5 @@ public class EditNotesActivity extends AppCompatActivity implements
     @Override
     public void saveChanges() {
         safetyFinish(this::finish);
-        Toast.makeText(getBaseContext(), "EditNotesActivity/Save:", Toast.LENGTH_LONG).show();
     }
-
 }

@@ -66,7 +66,7 @@ public class NoteFragment extends Fragment implements
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_note, container, false);
-        Log.d(LOG_TAG, "onCreateView(): ");
+//        Log.d(LOG_TAG, "onCreateView(): ");
 
         ButterKnife.bind(this, view);
         mSaveButton.setOnClickListener(this);
@@ -76,7 +76,7 @@ public class NoteFragment extends Fragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(LOG_TAG, "onViewCreated():");
+//        Log.d(LOG_TAG, "onViewCreated():");
         getActivity().
                 getSupportLoaderManager().
                 initLoader((int)getArguments().getLong(ProviGenBaseContract._ID), null, this);
@@ -86,7 +86,7 @@ public class NoteFragment extends Fragment implements
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         long noteId = getArguments().getLong(ProviGenBaseContract._ID);
 
-        Log.d(LOG_TAG, "onCreateLoader():");
+//        Log.d(LOG_TAG, "onCreateLoader():");
         return new CursorLoader(
                 getActivity(),
                 Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(noteId)),
@@ -104,9 +104,9 @@ public class NoteFragment extends Fragment implements
         mNameEditText.setText(person.getName());
         mSurNameEditText.setText(person.getSurName());
 
-        Log.d(LOG_TAG, "onLoadFinished(): mNameEditText = " + mNameEditText.getText() +
-                ", mSurNameEditText = " + mSurNameEditText.getText() +
-                ", mId = " + mId);
+//        Log.d(LOG_TAG, "onLoadFinished(): mNameEditText = " + mNameEditText.getText() +
+//                ", mSurNameEditText = " + mSurNameEditText.getText() +
+//                ", mId = " + mId);
     }
 
     @Override
