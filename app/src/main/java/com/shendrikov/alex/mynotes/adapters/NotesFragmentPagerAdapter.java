@@ -54,15 +54,20 @@ public class NotesFragmentPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         super.setPrimaryItem(container, position, object);
-        if (mFragmentsList != null) {
-            mCurrentFragment = mFragmentsList.get(position);
-            mCurrentId = mCurrentFragment.getArguments().getLong(ProviGenBaseContract._ID);
-            Log.d(LOG_TAG, "setPrimaryItem():\nposition = " + position +
-                    ", \nmCurrentFragment id  = " +
-                    mCurrentFragment.getArguments().get(ProviGenBaseContract._ID));
-        } else {
-            Log.d(LOG_TAG, "setPrimaryItem(): mFragmentsList == null");
+        try {
+            if (mFragmentsList != null) {
+                mCurrentFragment = mFragmentsList.get(position);
+                mCurrentId = mCurrentFragment.getArguments().getLong(ProviGenBaseContract._ID);
+                Log.d(LOG_TAG, "setPrimaryItem():\nposition = " + position +
+                        ", \nmCurrentFragment id  = " +
+                        mCurrentFragment.getArguments().get(ProviGenBaseContract._ID));
+            } else {
+                Log.d(LOG_TAG, "setPrimaryItem(): mFragmentsList == null");
+            }
+        } catch (IndexOutOfBoundsException e) {
+            Log.d(LOG_TAG, "IndexOutOfBoundsException = " + mFragmentsList.size());
         }
+
     }
 
     public Fragment getCurrentFragment() {

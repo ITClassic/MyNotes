@@ -42,8 +42,6 @@ public class CreateNotesActivity extends AppCompatActivity {
     protected Toolbar mToolbar;
 
     private long mId = -1;
-    private String mOriginalName = "";
-    private String mOriginalSurName = "";
 
     @NonNull
     public static Intent newInstance(@NonNull Context context) {
@@ -115,24 +113,27 @@ public class CreateNotesActivity extends AppCompatActivity {
     }
 
     private void safetyFinish(Runnable runnable) {
-        if (mOriginalName.equals(mNameEditText.getText())
-                && mOriginalSurName.equals(mSurNameEditText.getText())) {
+        String originalName = "";
+        String originalSurName = "";
+
+        if (originalName.equals(mNameEditText.getText().toString())
+                && originalSurName.equals(mSurNameEditText.getText().toString())) {
             runnable.run();
             return;
         }
-        showAreYouSureAlert(runnable);
+        showSaveAlert(runnable);
     }
 
-    private void showAreYouSureAlert(final Runnable runnable) {
+    private void showSaveAlert(final Runnable runnable) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.are_you_sure_alert_dialog_title);
-        builder.setMessage(R.string.are_you_sure_alert_do_you_want_to_save_changes);
+        builder.setTitle(R.string.save_changes_alert_dialog_title);
+        builder.setMessage(R.string.all_changes_will_be_saved);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.yes, (dialogInterface, id) -> {
+        builder.setPositiveButton(R.string.save, (dialogInterface, id) -> {
             save();
             runnable.run();
         });
-        builder.setNegativeButton(R.string.no, ((dialogInterface, id) -> runnable.run()));
+        builder.setNegativeButton(R.string.cancel, ((dialogInterface, id) -> runnable.run()));
         builder.show();
     }
 

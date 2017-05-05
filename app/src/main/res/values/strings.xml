@@ -9,11 +9,13 @@
         name="sharing_template">Name: %s\nSurName: %s</string>
     <string name="save">Save</string>
     <string name="search_hint">Type person\'s name</string>
-    <string name="are_you_sure_alert_dialog_title">Attention!!!</string>
-    <string name="are_you_sure_alert_do_you_want_to_save_changes">Do you want to save changes?</string>
-    <string name="yes">Yes!</string>
-    <string name="no">No</string>
+    <string name="save_changes_alert_dialog_title">Save changes?</string>
+    <string name="all_changes_will_be_saved">All changes will be saved</string>
     <string name="hint_surName">SurName:</string>
     <string name="hint_id">Id:</string>
     <string name="hint_name">Name:</string>
+    <string name="are_you_sure_to_delete_item">Are you sure to delete?</string>
+    <string name="delete">Delete</string>
+    <string name="chosen_item_will_be_deleted">Chosen item will be deleted!</string>
+    <string name="cancel">Cancel</string>
 </resources>

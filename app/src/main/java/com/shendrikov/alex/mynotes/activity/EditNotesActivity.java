@@ -114,7 +114,7 @@ public class EditNotesActivity extends AppCompatActivity implements
                 break;
             case R.id.menu_item_action_delete:
                 Log.d(LOG_TAG, "delete:");
-                deleteNote();
+                showDeleteAlert(this::finish);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -152,21 +152,35 @@ public class EditNotesActivity extends AppCompatActivity implements
 //                    ", mOriginalName = " + mOriginalName);
             return;
         }
-        showAreYouSureAlert(runnable);
+        showSaveAlert(runnable);
     }
 
-    private void showAreYouSureAlert(final Runnable runnable) {
-        Log.d(LOG_TAG, "showAreYouSureAlert():");
+    private void showSaveAlert(final Runnable runnable) {
+        Log.d(LOG_TAG, "showSaveAlert():");
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.are_you_sure_alert_dialog_title);
-        builder.setMessage(R.string.are_you_sure_alert_do_you_want_to_save_changes);
+        builder.setTitle(R.string.save_changes_alert_dialog_title);
+        builder.setMessage(R.string.all_changes_will_be_saved);
         builder.setCancelable(false);
-        builder.setPositiveButton(R.string.yes, (dialogInterface, id) -> {
+        builder.setPositiveButton(R.string.save, (dialogInterface, id) -> {
             save();
             runnable.run();
         });
-        builder.setNegativeButton(R.string.no, ((dialogInterface, id) -> runnable.run()));
+        builder.setNegativeButton(R.string.cancel, ((dialogInterface, id) -> runnable.run()));
+        builder.show();
+    }
+
+    private void showDeleteAlert(final Runnable runnable) {
+        Log.d(LOG_TAG, "showDeleteAlert():");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.are_you_sure_to_delete_item);
+        builder.setMessage(R.string.chosen_item_will_be_deleted);
+        builder.setCancelable(false);
+        builder.setPositiveButton(R.string.delete, (dialogInterface, id) -> {
+            deleteNote();
+        });
+        builder.setNegativeButton(R.string.cancel, ((dialogInterface, id) -> runnable.run()));
         builder.show();
     }
 
@@ -206,7 +220,6 @@ public class EditNotesActivity extends AppCompatActivity implements
                     null,
                     null);
         }
-
         Log.d(LOG_TAG, "updatePerson(): mNameEdit = " + mNameEdit.getText() + ", mId = " + mId);
     }
 
@@ -275,6 +288,15 @@ public class EditNotesActivity extends AppCompatActivity implements
 
     @Override
     public void saveChanges() {
-        safetyFinish(this::finish);
+                mNameEdit = (EditText) mViewPagerAdapter.
+                getCurrentFragment().
+                getView().
+                findViewById(R.id.id_name_edit_text);
+        mSurNameEdit = (EditText) mViewPagerAdapter.
+                getCurrentFragment().
+                getView().
+                findViewById(R.id.id_surname_edit_text);
+        save();
+        finish();
     }
 }
