@@ -19,7 +19,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -121,18 +120,6 @@ public class EditNotesActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private void deleteNote() {
-        Log.d(LOG_TAG, "deleteNote():");
-
-        if (isNoteUpdatable()) {
-            getContentResolver().delete(
-                    Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
-                    null,
-                    null);
-        }
-        finish();
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -223,6 +210,19 @@ public class EditNotesActivity extends AppCompatActivity implements
         Log.d(LOG_TAG, "updatePerson(): mNameEdit = " + mNameEdit.getText() + ", mId = " + mId);
     }
 
+    private void deleteNote() {
+        Log.d(LOG_TAG, "deleteNote(): mId = " + mId);
+
+        if (isNoteUpdatable()) {
+            getContentResolver().delete(
+                    Uri.withAppendedPath(MyNotesContract.CONTENT_URI, String.valueOf(mId)),
+                    null,
+                    null);
+        }
+        getLoaderManager().destroyLoader(R.id.edit_note_loader);
+        finish();
+    }
+
     private String prepareNotForSharing() {
         String name = mNameEdit.getText().toString();
         String surName = mSurNameEdit.getText().toString();
@@ -244,7 +244,7 @@ public class EditNotesActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         List<Person> dataSource = new ArrayList<>();
 
-//        long currentId = mViewPagerAdapter.getCurrentId();
+//        long currentId = mViewPagerAdapter.getmCurrentId();
 //        Log.d(LOG_TAG, "currentID = " + currentId);
 
         while(cursor.moveToNext()) {

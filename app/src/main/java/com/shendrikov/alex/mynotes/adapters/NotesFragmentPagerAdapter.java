@@ -20,8 +20,8 @@ import java.util.List;
 public class NotesFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     private static List<NoteFragment> mFragmentsList;
-    private NoteFragment currentFragment;
-    private long currentId;
+    private NoteFragment mCurrentFragment;
+    private long mCurrentId;
 
     private static final String LOG_TAG = NotesFragmentPagerAdapter.class.getSimpleName();
 
@@ -37,14 +37,17 @@ public class NotesFragmentPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         long id = mDataSource.get(mIndex + position).getId();
         NoteFragment noteFragment = NoteFragment.newInstance(id);
+        Log.d(LOG_TAG, "getItem(): position = " + position);
+
         saveCurrentFragment(position, noteFragment);
+
         Log.d(LOG_TAG,"\n-----------------------------------------------------------------------");
         return noteFragment;
     }
 
     @Override
     public int getCount() {
-//        Log.d(LOG_TAG, "getCount(): mCount = " + mCount);
+        Log.d(LOG_TAG, "getCount(): mCount = " + mCount);
         return mDataSource == null ? 0 : mCount;
     }
 
@@ -52,31 +55,34 @@ public class NotesFragmentPagerAdapter extends FragmentStatePagerAdapter {
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         super.setPrimaryItem(container, position, object);
         if (mFragmentsList != null) {
-            currentFragment = mFragmentsList.get(position);
-            currentId = currentFragment.getArguments().getLong(ProviGenBaseContract._ID);
+            mCurrentFragment = mFragmentsList.get(position);
+            mCurrentId = mCurrentFragment.getArguments().getLong(ProviGenBaseContract._ID);
             Log.d(LOG_TAG, "setPrimaryItem():\nposition = " + position +
-                    ", \ncurrentFragment id  = " +
-                    currentFragment.getArguments().get(ProviGenBaseContract._ID));
+                    ", \nmCurrentFragment id  = " +
+                    mCurrentFragment.getArguments().get(ProviGenBaseContract._ID));
         } else {
-            Log.d(LOG_TAG, "mFragmentsList == null");
-            return;
+            Log.d(LOG_TAG, "setPrimaryItem(): mFragmentsList == null");
         }
     }
 
     public Fragment getCurrentFragment() {
-        return currentFragment;
+        return mCurrentFragment;
     }
 
     public long getCurrentId() {
-        return currentId;
+        return mCurrentId;
     }
 
     private static void saveCurrentFragment (int position, NoteFragment noteFragment) {
 
+        Log.d(LOG_TAG, "saveCurrentFragment(): position = " + position);
+
         if (position > -1 && position <= mFragmentsList.size() - 1) {
             if (position == 0) {
                 mFragmentsList.set(position, noteFragment);
-
+                Log.d(LOG_TAG, "\nSet: position = " + position + ", id = " +
+                        mFragmentsList.get(position).getArguments().get(ProviGenBaseContract._ID) +
+                        ", size() = " + mFragmentsList.size());
             }
         } else {
             mFragmentsList.add(position, noteFragment);
@@ -87,6 +93,7 @@ public class NotesFragmentPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void setDataSource(List<Person> dataSource, long id) {
+
         List<Long> idList = new ArrayList<>(); // initialize the array for storing id
         mDataSource = dataSource;
 
@@ -100,6 +107,6 @@ public class NotesFragmentPagerAdapter extends FragmentStatePagerAdapter {
         mFragmentsList = new ArrayList<>();
 
         notifyDataSetChanged();
-        Log.d(LOG_TAG, "index = " + mIndex + ", count = " + mCount);
+        Log.d(LOG_TAG, "setDataSource(): index = " + mIndex + ", count = " + mCount);
     }
 }
