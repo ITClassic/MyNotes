@@ -14,16 +14,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".activity.SearchResultsActivity"/>
         </activity>
+
         <activity android:name=".activity.EditNotesActivity">
-
         </activity>
+
         <activity android:name=".activity.CreateNotesActivity">
-
         </activity>
+
         <activity android:name=".activity.SearchResultsActivity"
             android:launchMode="singleTop">
-
         <intent-filter>
             <action android:name="android.intent.action.SEARCH" />
             <category android:name="android.intent.category.DEFAULT" />
@@ -32,6 +35,7 @@
         <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
     </activity>
+
         <provider
             android:authorities="com.shendrikov.alex.mynotes"
             android:name=".providers.MyNotesContentProvider"

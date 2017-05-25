@@ -36,7 +36,8 @@ import butterknife.OnClick;
 import static com.shendrikov.alex.mynotes.R.id.fab;
 
 public class MyNotesActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener {
+        implements LoaderManager.LoaderCallbacks<Cursor>, View.OnClickListener,
+                    SearchView.OnQueryTextListener{
 
     public static final String LOG_TAG = MyNotesActivity.class.getSimpleName();
 
@@ -46,6 +47,8 @@ public class MyNotesActivity extends AppCompatActivity
     protected Toolbar mToolbar;
     @BindView(fab)
     protected FloatingActionButton mFab;
+
+    private MyAdapter mMyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,7 @@ public class MyNotesActivity extends AppCompatActivity
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(this);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -113,10 +117,10 @@ public class MyNotesActivity extends AppCompatActivity
         while (cursor.moveToNext()) {
             dataSource.add(new Person(cursor));
         }
-        MyAdapter myAdapter = new MyAdapter();
-        mRecyclerView.setAdapter(myAdapter);
-        myAdapter.setDataSource(this, dataSource);
-        myAdapter.setOnItemClickListener(this);
+        mMyAdapter = new MyAdapter();
+        mRecyclerView.setAdapter(mMyAdapter);
+        mMyAdapter.setDataSource(this, this, dataSource);
+        mMyAdapter.setOnItemClickListener(this);
 
         Log.d(LOG_TAG, "onLoadFinished(): " + loader.hashCode());
     }
@@ -133,5 +137,18 @@ public class MyNotesActivity extends AppCompatActivity
         if (holder == null) return;
         startActivity(EditNotesActivity.newInstance(this, holder.getPerson().getId()));
         Log.d(LOG_TAG, "Clicked on item with id = " + holder.getPerson().getId());
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        Log.d(LOG_TAG, "onQueryTextSubmit(): ");
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d(LOG_TAG, "onQueryTextChange(): " + newText);
+        mMyAdapter.getFilter().filter(newText);
+        return false;
     }
 }

@@ -3,4 +3,5 @@
     <item name="notes_loader" type="id">101</item>
     <item name="edit_note_loader" type="id">102</item>
     <item name="note_fragment_loader_id" type="id">103</item>
+    <item name="search_results_loader" type="id">104</item>
 </resources>
