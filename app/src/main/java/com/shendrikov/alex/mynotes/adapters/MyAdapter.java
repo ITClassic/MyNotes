@@ -33,7 +33,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder>
     private PersonFilter mPersonFilter;
     private View.OnClickListener mOnItemClickListener = null;
 
-    protected List<Person> mFilteredList;
+    private List<Person> mFilteredList;
 
     public View.OnClickListener getOnItemClickListener() {
         return mOnItemClickListener;
@@ -163,5 +163,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.PersonViewHolder>
             mFilteredList = (ArrayList<Person>)results.values;
             notifyDataSetChanged();
         }
+    }
+
+    public List<Person> getFilteredList() {
+        return mFilteredList;
     }
 }

@@ -3,8 +3,10 @@ package com.shendrikov.alex.mynotes.activity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -63,6 +65,16 @@ public class MyNotesActivity extends AppCompatActivity
                 new LinearLayoutManager(this, mRecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         getSupportLoaderManager().initLoader(R.id.notes_loader, null, this);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        if(Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            intent.
+                    putParcelableArrayListExtra("filteredList",
+                            (ArrayList<? extends Parcelable>) mMyAdapter.getFilteredList());
+        }
+        super.startActivity(intent);
     }
 
     @OnClick(R.id.fab)
